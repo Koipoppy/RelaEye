@@ -1,0 +1,332 @@
+/* === 新拟态色彩方案 === */
+:root {
+    --bg:       #1a1a2e;
+    --surface:  #16213e;
+    --raised:   #1c2a4a;
+    --shadow-d: #0d1321;
+    --shadow-l: #253559;
+    --accent:   #5c7cfa;
+    --text:     #b8c5d9;
+    --text-dim: #6b7d99;
+    --text-bri: #e0e8f0;
+}
+
+/* === 全局重置 === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    color: var(--text);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* === 画布全屏 === */
+#render-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* === UI 面板 — 新拟态 === */
+#ui-panel {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 20px 24px;
+    min-width: 260px;
+    max-width: 300px;
+    box-shadow:
+        8px 8px 20px var(--shadow-d),
+       -4px -4px 12px var(--shadow-l);
+    border: 1px solid rgba(92, 124, 250, 0.08);
+    transition: opacity 0.3s;
+}
+
+.panel-section {
+    margin-bottom: 18px;
+}
+
+.panel-section:last-child {
+    margin-bottom: 0;
+}
+
+.panel-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    text-align: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(92, 124, 250, 0.15);
+}
+
+.panel-label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.panel-label sub {
+    font-size: 10px;
+}
+
+/* === 模式按钮 — 新拟态 === */
+.mode-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    background: var(--raised);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+    box-shadow:
+        3px 3px 8px var(--shadow-d),
+       -2px -2px 6px var(--shadow-l);
+}
+
+.mode-btn:hover {
+    color: var(--text);
+    box-shadow:
+        2px 2px 6px var(--shadow-d),
+       -1px -1px 4px var(--shadow-l);
+}
+
+.mode-btn.active {
+    background: linear-gradient(135deg, var(--accent), #4361ee);
+    color: #ffffff;
+    box-shadow:
+        inset 2px 2px 6px rgba(0, 0, 0, 0.25),
+        inset -1px -1px 4px rgba(255, 255, 255, 0.1);
+}
+
+/* === 速度滑块 — 新拟态 === */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--raised);
+    outline: none;
+    margin-top: 8px;
+    box-shadow:
+        inset 2px 2px 5px var(--shadow-d),
+        inset -1px -1px 3px var(--shadow-l);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+    box-shadow:
+        2px 2px 6px var(--shadow-d),
+       -1px -1px 4px var(--shadow-l);
+    transition: box-shadow 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    box-shadow:
+        3px 3px 8px var(--shadow-d),
+       -2px -2px 5px var(--shadow-l),
+        0 0 12px rgba(92, 124, 250, 0.4);
+}
+
+#val-max-beta {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* === 帮助文本 === */
+.help-text {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    background: var(--raised);
+    border-radius: 10px;
+    padding: 10px 12px;
+    box-shadow:
+        inset 2px 2px 5px var(--shadow-d),
+        inset -1px -1px 3px var(--shadow-l);
+}
+
+.help-text b {
+    color: var(--text);
+}
+
+/* === HUD 速度显示 — 新拟态 === */
+#hud {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: rgba(22, 33, 62, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 14px;
+    padding: 14px 24px;
+    box-shadow:
+        6px 6px 16px var(--shadow-d),
+       -3px -3px 10px var(--shadow-l);
+}
+
+.hud-item {
+    text-align: center;
+    min-width: 55px;
+}
+
+.hud-label {
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    white-space: nowrap;
+}
+
+.hud-value {
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--text-bri);
+    letter-spacing: 0.5px;
+    font-variant-numeric: tabular-nums;
+}
+
+.hud-value.speed {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.hud-unit {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-left: 2px;
+}
+
+/* === 速度条 — 新拟态 === */
+#speed-bar-container {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 280px;
+    height: 6px;
+    background: var(--raised);
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow:
+        inset 2px 2px 4px var(--shadow-d),
+        inset -1px -1px 3px var(--shadow-l);
+}
+
+#speed-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #748ffc, #e0e8f0);
+    border-radius: 3px;
+    transition: width 0.1s;
+}
+
+/* === 模式切换提示 === */
+#mode-toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-bri);
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 14px 28px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    box-shadow:
+        6px 6px 16px var(--shadow-d),
+       -3px -3px 10px var(--shadow-l);
+}
+
+#mode-toast.show {
+    opacity: 1;
+}
+
+/* === 指针提示 === */
+#pointer-hint {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 300;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 14px 30px;
+    opacity: 0;
+    transition: opacity 0.8s;
+    pointer-events: none;
+    letter-spacing: 0.5px;
+    box-shadow:
+        6px 6px 16px var(--shadow-d),
+       -3px -3px 10px var(--shadow-l);
+}
+
+/* === 响应式 === */
+@media (max-width: 600px) {
+    #ui-panel {
+        left: 10px;
+        top: 10px;
+        min-width: auto;
+        max-width: 220px;
+        padding: 14px 16px;
+    }
+
+    .panel-title {
+        font-size: 14px;
+    }
+
+    .hud-value {
+        font-size: 20px;
+    }
+
+    #hud {
+        padding: 10px 16px;
+        gap: 12px;
+    }
+}
