@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relativistic Space Explorer — 真实尺度宇宙</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{overflow:hidden;background:#000;font-family:'Courier New',monospace;user-select:none}
+canvas{display:block}
+#hud{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10}
+#crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:24px;height:24px;pointer-events:none;z-index:11}
+#crosshair::before,#crosshair::after{content:'';position:absolute;background:rgba(255,255,255,0.45)}
+#crosshair::before{top:11px;left:2px;width:20px;height:2px}
+#crosshair::after{top:2px;left:11px;width:2px;height:20px}
+#left-panel{position:fixed;left:20px;bottom:35px;color:#0cf;font-size:13px;line-height:1.7;text-shadow:0 0 6px rgba(0,200,255,0.5)}
+#left-panel .v{color:#fff;font-weight:bold}
+#left-panel .warn{color:#f44;animation:pulse .5s infinite alternate}
+@keyframes pulse{from{opacity:1}to{opacity:.3}}
+#right-panel{position:fixed;right:20px;bottom:35px;color:#0f0;font-size:13px;line-height:1.7;text-align:right;text-shadow:0 0 6px rgba(0,255,0,0.5)}
+#right-panel .v{color:#fff}
+#top-info{position:fixed;top:15px;left:50%;transform:translateX(-50%);color:#ff0;font-size:15px;text-align:center;text-shadow:0 0 8px rgba(255,255,0,0.6)}
+#top-info .sub{font-size:12px;color:#aaa}
+#msg{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:20px;text-align:center;text-shadow:0 0 12px rgba(255,255,255,0.7);transition:opacity .6s}
+#help{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.3);font-size:10px;text-align:center}
+#sys-view{position:fixed;left:20px;top:20px;width:240px;height:240px;border:1px solid rgba(255,255,255,0.2);border-radius:50%;pointer-events:none;z-index:8;opacity:0;transition:opacity .8s;background:rgba(0,0,0,0.4)}
+#sys-view .dot{position:absolute;width:7px;height:7px;background:#fff;border-radius:50%;transform:translate(-50%,-50%)}
+#sys-view .planet-dot{position:absolute;width:5px;height:5px;background:#8cf;border-radius:50%;transform:translate(-50%,-50%)}
+#doppler-bar{position:fixed;top:50%;right:8px;transform:translateY(-50%);width:6px;height:180px;border-radius:3px;background:linear-gradient(to bottom,#48f,#fff 50%,#f84);opacity:.4;z-index:10}
+</style>
+</head>
+<body>
+<div id="hud">
+  <div id="crosshair"></div>
+  <div id="left-panel">
+    SPEED <span class="v" id="spd">0.0000 c</span><br>
+    <span id="spd-kms">0 km/s</span><br>
+    GAMMA <span class="v" id="gam">γ=1.000</span><br>
+    THROTTLE <span class="v" id="thr">0%</span>
+  </div>
+  <div id="right-panel">
+    SHIP TIME<br><span class="v" id="stime">0d 00:00</span><br>
+    EARTH TIME<br><span class="v" id="etime">0d 00:00</span><br>
+    DILATION<br><span class="v" id="dil">×1.000</span>
+  </div>
+  <div id="top-info">
+    <span id="sys-name">INTERSTELLAR SPACE</span><br>
+    <span class="sub" id="sys-dist"></span>
+  </div>
+  <div id="msg"></div>
+  <div id="help">W/S Throttle | Mouse Look | 1-5 Preset Speed | F Stop | R Reset Position | Tab System Info</div>
+  <div id="doppler-bar"></div>
+  <div id="sys-view"></div>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
+</script>
+
+<script>
+window._gameLoaded = false;
+setTimeout(() => {
+  if (!window._gameLoaded) {
+    const el = document.getElementById('msg');
+    if (el) {
+      el.innerHTML = '⚠ Failed to load 3D engine<br><small>Try running a local server:<br><code>python -m http.server 8080</code><br>then open http://localhost:8080/game.html</small>';
+      el.style.opacity = '1';
+      el.style.color = '#f44';
+      el.style.fontSize = '16px';
+      el.style.lineHeight = '1.8';
+    }
+  }
+}, 5000);
+</script>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
